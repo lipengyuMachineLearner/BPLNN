@@ -13,7 +13,7 @@ public:
 	void printwb();
 	void train(double *x, double *y, double lr);
 
-	int predict(double *);
+	double *predict(double *);
 	double cal_error(double **ppdtest, double* pdlabel, int ibatch);
 	//double cal_error(double* label);
 	void makeLabels(int* pimax, double (*pplabels)[8]);

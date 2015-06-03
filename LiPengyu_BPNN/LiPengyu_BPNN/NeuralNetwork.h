@@ -3,18 +3,21 @@
 
 #include "HiddenLayer.h"
 #include "LogisticRegression.h"
+#include "config.h"
+#include <string>
 
 class NeuralNetwork
 {
 public:
-    NeuralNetwork(int n, int n_i, int n_o, int nhl, int*hls, int type);
+    NeuralNetwork(int n, int nt, int n_i, int n_o, int nhl, int*hls, int type);
     ~NeuralNetwork();
 
-    void train(double** in_data, double** in_label, double lr, int epochs);
-    void predict(double** in_data, int n);
+    void train(double** traindata, double** trainlabel, double **testData, double **testLabel, double lr, int epochs);
+    double ** predict(double** in_data, int n);
 
 private:
     int N; //样本数量
+	int NT; //测试样本数量
     int n_in; //输入维数
     int n_out; //输出维数
     int n_hidden_layer; //隐层数目
@@ -24,9 +27,9 @@ private:
 
     HiddenLayer **sigmoid_layers;
     LogisticRegression *log_layer;
-};
 
-void mlp();
+	double NeuralNetwork::getRMSE(double **pred, double **trainLabel, int N, int n_out);
+};
 
 #endif
 

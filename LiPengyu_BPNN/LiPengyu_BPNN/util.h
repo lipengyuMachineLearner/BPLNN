@@ -23,12 +23,16 @@ inline double sigmoid(double x)
 {
     return 1.0/(1.0+exp(-x));
 }
-
+inline double relu(double x)
+{
+	return (x > 0 ? 1 : 0);
+}
 inline double reciprocal(int type, double x)
 {
 	switch (type)
 	{
 	case 0: return x*(1-x);
+	case 1: return (x > 0 ? 1 : 0);
 	default: return 0;
 	}
 	/*if(type=="sigmoid")
@@ -42,6 +46,7 @@ inline double activityFunction(int type, double x)
 	switch (type)
 	{
 	case 0: return sigmoid(x);
+	case 1: return relu(x);
 	default: return 0;
 	}
 	/*if(type=="sigmoid")

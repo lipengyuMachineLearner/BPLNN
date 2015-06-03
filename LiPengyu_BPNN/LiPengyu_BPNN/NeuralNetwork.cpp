@@ -1,15 +1,15 @@
 ﻿#include <iostream>
 #include "NeuralNetwork.h"
 #include "util.h"
+#include <fstream>
 //#include "HiddenLayer.h"
 //#include "LogisticRegression.h"
 
 using namespace std;
-
-const int n_train = 8, innode = 3, outnode = 8;
-NeuralNetwork::NeuralNetwork(int n, int n_i, int n_o, int nhl, int *hls, int type)
+NeuralNetwork::NeuralNetwork(int n, int nt, int n_i, int n_o, int nhl, int *hls, int type)
 {
 	N = n;
+	NT = nt;
 	n_in = n_i;
 	n_out = n_o;
 
@@ -32,6 +32,7 @@ NeuralNetwork::NeuralNetwork(int n, int n_i, int n_o, int nhl, int *hls, int typ
 	}
 
 	log_layer = new LogisticRegression(hidden_layer_size[n_hidden_layer-1], n_out, N);//最后的softmax层
+
 }
 
 NeuralNetwork::~NeuralNetwork()
@@ -44,14 +45,10 @@ NeuralNetwork::~NeuralNetwork()
 	delete log_layer;//删除的时候不能加[]
 }
 
-void NeuralNetwork::train(double** ppdinData, double** ppdinLabel, double dlr, int iepochs)
+void NeuralNetwork::train(double** trainData, double** trainLabel, double **testData, double **testLabel, double dlr, int iepochs)
 {
-	printArrDouble(ppdinData, N, n_in);
-
-	
-	cout << "******label****" << endl;
-	printArrDouble(ppdinLabel, N, n_out);
-
+	ofstream outfile;
+	outfile.open(outFile.c_str());
 	//反复迭代样本iepochs次训练
 	for(int epoch = 0; epoch < iepochs; ++epoch)
 	{
@@ -63,7 +60,7 @@ void NeuralNetwork::train(double** ppdinData, double** ppdinLabel, double dlr, i
 			{
 				if(n == 0) //第一个隐层直接输入数据
 				{
-					sigmoid_layers[n]->forward_propagation(ppdinData[i]);
+					sigmoid_layers[n]->forward_propagation(trainData[i]);
 				}
 				else //其他隐层用前一层的输出作为输入数据
 				{
@@ -73,10 +70,10 @@ void NeuralNetwork::train(double** ppdinData, double** ppdinLabel, double dlr, i
 			//softmax层使用最后一个隐层的输出作为输入数据
 			log_layer->forward_propagation(sigmoid_layers[n_hidden_layer-1]->output_data);
 
-			//e += log_layer->cal_error(ppdinLabel[i]);
+			//e += log_layer->cal_error(trainLabel[i]);
 
 			//反向传播阶段
-			log_layer->back_propagation(sigmoid_layers[n_hidden_layer-1]->output_data, ppdinLabel[i], dlr);
+			log_layer->back_propagation(sigmoid_layers[n_hidden_layer-1]->output_data, trainLabel[i], dlr);
 
 			for(int n = n_hidden_layer-1; n >= 1; --n)
 			{
@@ -96,21 +93,44 @@ void NeuralNetwork::train(double** ppdinData, double** ppdinLabel, double dlr, i
 			}
 			//这里该怎么写？
 			if (n_hidden_layer > 1)
-				sigmoid_layers[0]->back_propagation(ppdinData[i],
+				sigmoid_layers[0]->back_propagation(trainData[i],
 					sigmoid_layers[1]->delta, sigmoid_layers[1]->w, sigmoid_layers[1]->n_out, dlr, N);
 			else
-				sigmoid_layers[0]->back_propagation(ppdinData[i],
+				sigmoid_layers[0]->back_propagation(trainData[i],
 					log_layer->delta, log_layer->w, log_layer->n_out, dlr, N);
 		}
-		//if (epoch % 100 == 1)
-			//cout << "iepochs number is " << epoch << "   cost function is " << e / (double)N << endl;
+		
+
+		/*if(epoch%decay_lr_epoch == 0)
+			dlr = decay_lr * dlr;*/
+
+		double **pred_train = predict(trainData, N);
+		double RMSE_train = getRMSE(pred_train, trainLabel, N, n_out);
+
+		double **pred_test = predict(testData, NT);
+		double RMSE_test = getRMSE(pred_test, testLabel, NT, n_out);
+
+		for(int del_i = 0 ; del_i < N ; del_i ++)
+			delete []pred_train[del_i];
+		delete []pred_train;
+
+		for(int del_i = 0 ; del_i < NT ; del_i ++)
+			delete []pred_test[del_i];
+		delete []pred_test;
+
+		std::cout << "epoch," << epoch << ",trainError," << RMSE_train; 
+		std::cout << ",testError" << RMSE_test << endl;
+
+		outfile << "epoch," << epoch << ",trainError," << RMSE_train; 
+		outfile << ",testError" << RMSE_test << endl;
 	}
 
 }
 
-void NeuralNetwork::predict(double** ppdata, int n)
+
+double ** NeuralNetwork::predict(double** ppdata, int n)
 {
-	
+	double **result = new double *[n];
 
 	for(int i = 0; i < n; ++i)
 	{
@@ -126,88 +146,25 @@ void NeuralNetwork::predict(double** ppdata, int n)
 			}
 		}
 		//softmax层使用最后一个隐层的输出作为输入数据
-		log_layer->predict(sigmoid_layers[n_hidden_layer-1]->output_data);
+		result[i] = log_layer->predict(sigmoid_layers[n_hidden_layer-1]->output_data);
 		//log_layer->forward_propagation(sigmoid_layers[n_hidden_layer-1]->output_data);
 	}
-}
-//double **makeLabelSample(double **label_x)
-double **makeLabelSample(double label_x[][outnode])
-{
-	double **pplabelSample;
-	pplabelSample = new double*[n_train];
-	for (int i = 0; i < n_train; ++i)
-	{
-		pplabelSample[i] = new double[outnode];
-	}
 
-	for (int i = 0; i < n_train; ++i)
-	{
-		for (int j = 0; j < outnode; ++j)
-			pplabelSample[i][j] = label_x[i][j];
-	}
-	return pplabelSample;
-}
-double **maken_train(double train_x[][innode])
-{
-	double **ppn_train;
-	ppn_train = new double*[n_train];
-	for (int i = 0; i < n_train; ++i)
-	{
-		ppn_train[i] = new double[innode];
-	}
-
-	for (int i = 0; i < n_train; ++i)
-	{
-		for (int j = 0; j < innode; ++j)
-			ppn_train[i][j] = train_x[i][j];
-	}
-	return ppn_train;
-}
-void disTrain(double **pptrain)
-{
-	for (int i = 0; i < n_train; ++i)
-	{
-		for (int j = 0; j < innode; ++j)
-			cout << pptrain[i][j] << ' ';
-		cout << endl;
-	}
+	return result;
 }
 
-void mlp()
+double NeuralNetwork::getRMSE(double **pred, double **label, int N, int n_out)
 {
-	//输入样本
-	double X[n_train][innode]= {
-		{0,0,0},{0,0,1},{0,1,0},{0,1,1},{1,0,0},{1,0,1},{1,1,0},{1,1,1}
-	};
-
-	double Y[n_train][outnode]={
-		{1, 0, 0, 0, 0, 0, 0, 0},
-		{0, 1, 0, 0, 0, 0, 0, 0},
-		{0, 0, 1, 0, 0, 0, 0, 0},
-		{0, 0, 0, 1, 0, 0, 0, 0},
-		{0, 0, 0, 0, 1, 0, 0, 0},
-		{0, 0, 0, 0, 0, 1, 0, 0},
-		{0, 0, 0, 0, 0, 0, 1, 0},
-		{0, 0, 0, 0, 0, 0, 0, 1},
-	};
-	const int ihiddenSize = 2;
-	int phidden[ihiddenSize] = {5, 5};
-	//printArr(phidden, 1);
-	NeuralNetwork neural(n_train, innode, outnode, ihiddenSize, phidden, 0);
-	double **train_x, **ppdlabel;
-	train_x = maken_train(X);
-	//printArrDouble(train_x, n_train, innode);
-	ppdlabel = makeLabelSample(Y);
-	neural.train(train_x, ppdlabel, 0.1, 3500);
-	cout<<"trainning complete..."<<endl;
-	neural.predict(train_x, n_train);
-
-	for (int i = 0; i != n_train; ++i)
+	double result = 0;
+	for(int i = 0 ; i < N ; i++)
 	{
-		delete []train_x[i];
-		delete []ppdlabel[i];
+		for(int j = 0 ; j < n_out ; j++)
+		{
+			result += (pred[i][j] - label[i][j]) * (pred[i][j] - label[i][j]);
+		}
 	}
-	delete []train_x;
-	delete []ppdlabel;
-	cout<<endl;
+
+	result = sqrt(result/N);
+
+	return result;
 }
