@@ -3,7 +3,7 @@
 #include <iostream>
 #include "LogisticRegression.h"
 #include "util.h"
-
+#include "config.h"
 using namespace std;
 
 
@@ -44,6 +44,28 @@ LogisticRegression::~LogisticRegression()
     delete[] delta;
 }
 
+void LogisticRegression::softmax(double* x)
+{
+    double _max = 0.0;
+    double _sum = 0.0;
+
+    for(int i = 0; i < n_out; ++i)
+    {
+        if(_max < x[i])
+            _max = x[i];
+    }
+    for(int i = 0; i < n_out; ++i)
+    {
+        x[i] = exp(x[i]-_max);
+        _sum += x[i];
+    }
+
+    for(int i = 0; i < n_out; ++i)
+    {
+        x[i] /= _sum;
+    }
+}
+
 void LogisticRegression::forward_propagation(double* input_data)
 {
     for(int i = 0; i < n_out; ++i)
@@ -55,13 +77,16 @@ void LogisticRegression::forward_propagation(double* input_data)
         }
         output_data[i] += b[i];
     }
+
+	if(target == "Classifier")
+		softmax(output_data);
 }
 
 void LogisticRegression::back_propagation(double* input_data, double* label, double lr)
 {
     for(int i = 0; i < n_out; ++i)
     {
-        delta[i] = label[i] - output_data[i] ;
+        delta[i] = label[i] - output_data[i] > 0 ? 1 : -1;
         for(int j = 0; j < n_in; ++j)
         {
             w[i][j] += lr * delta[i] * input_data[j] / n_train;
@@ -82,6 +107,16 @@ double *LogisticRegression::predict(double *x)
 	return result;
 
 }
+
+int LogisticRegression::predictSoftMax(double *x)
+{
+	forward_propagation(x);
+
+	int iresult = getMaxIndex(output_data, n_out);
+	return iresult;
+
+}
+
 void LogisticRegression::train(double *x, double *y, double lr)
 {
     forward_propagation(x);

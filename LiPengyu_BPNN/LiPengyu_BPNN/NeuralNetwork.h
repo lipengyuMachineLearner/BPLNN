@@ -14,6 +14,7 @@ public:
 
     void train(double** traindata, double** trainlabel, double **testData, double **testLabel, double lr, int epochs);
     double ** predict(double** in_data, int n);
+	int *predictSoftMax(double** ppdata, int n);
 
 private:
     int N; //样本数量
@@ -29,6 +30,7 @@ private:
     LogisticRegression *log_layer;
 
 	double NeuralNetwork::getRMSE(double **pred, double **trainLabel, int N, int n_out);
+	double NeuralNetwork::getAccuracy(int *pred, double **label, int N, int n_out);
 };
 
 #endif

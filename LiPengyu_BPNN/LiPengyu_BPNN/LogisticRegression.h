@@ -14,8 +14,8 @@ public:
 	void train(double *x, double *y, double lr);
 
 	double *predict(double *);
-	double cal_error(double **ppdtest, double* pdlabel, int ibatch);
-	//double cal_error(double* label);
+	int predictSoftMax(double *x);
+
 	void makeLabels(int* pimax, double (*pplabels)[8]);
 
 	//本层前向传播的输出值，也是最终的预测值

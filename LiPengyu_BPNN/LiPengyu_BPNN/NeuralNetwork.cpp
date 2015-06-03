@@ -52,6 +52,50 @@ void NeuralNetwork::train(double** trainData, double** trainLabel, double **test
 	//反复迭代样本iepochs次训练
 	for(int epoch = 0; epoch < iepochs; ++epoch)
 	{
+		if(target ==  "Classifier")
+		{
+			int *pred_train = predictSoftMax(trainData, N);
+			double Accuracy_train = getAccuracy(pred_train, trainLabel, N, n_out);
+
+			int *pred_test = predictSoftMax(testData, NT);
+			double Accuracy_test = getAccuracy(pred_test, testLabel, NT, n_out);
+
+			delete []pred_train;
+			delete []pred_test;
+
+			std::cout << "epoch," << epoch << ",trainError," << Accuracy_train; 
+			std::cout << ",testError" << Accuracy_test << endl;
+
+			outfile << "epoch," << epoch << ",trainError," << Accuracy_train; 
+			outfile << ",testError," << Accuracy_test << endl;
+		}
+		else if(target == "Regression")
+		{
+			double **pred_train = predict(trainData, N);
+			double RMSE_train = getRMSE(pred_train, trainLabel, N, n_out);
+
+			double **pred_test = predict(testData, NT);
+			double RMSE_test = getRMSE(pred_test, testLabel, NT, n_out);
+
+			for(int del_i = 0 ; del_i < N ; del_i ++)
+				delete []pred_train[del_i];
+			delete []pred_train;
+
+			for(int del_i = 0 ; del_i < NT ; del_i ++)
+				delete []pred_test[del_i];
+			delete []pred_test;
+
+			std::cout << "epoch," << epoch << ",trainError," << RMSE_train; 
+			std::cout << ",testError" << RMSE_test << endl;
+
+			outfile << "epoch," << epoch << ",trainError," << RMSE_train; 
+			outfile << ",testError," << RMSE_test << endl;
+		}
+		else
+			cout << "error in target chose" << endl;
+
+
+
 		double e = 0.0;
 		for(int i = 0; i < N; ++i)
 		{
@@ -103,31 +147,34 @@ void NeuralNetwork::train(double** trainData, double** trainLabel, double **test
 
 		/*if(epoch%decay_lr_epoch == 0)
 			dlr = decay_lr * dlr;*/
-
-		double **pred_train = predict(trainData, N);
-		double RMSE_train = getRMSE(pred_train, trainLabel, N, n_out);
-
-		double **pred_test = predict(testData, NT);
-		double RMSE_test = getRMSE(pred_test, testLabel, NT, n_out);
-
-		for(int del_i = 0 ; del_i < N ; del_i ++)
-			delete []pred_train[del_i];
-		delete []pred_train;
-
-		for(int del_i = 0 ; del_i < NT ; del_i ++)
-			delete []pred_test[del_i];
-		delete []pred_test;
-
-		std::cout << "epoch," << epoch << ",trainError," << RMSE_train; 
-		std::cout << ",testError" << RMSE_test << endl;
-
-		outfile << "epoch," << epoch << ",trainError," << RMSE_train; 
-		outfile << ",testError" << RMSE_test << endl;
 	}
 
 }
 
+int *NeuralNetwork::predictSoftMax(double** ppdata, int n)
+{
+	int *result = new int[n];
 
+	for(int i = 0; i < n; ++i)
+	{
+		for(int n = 0; n < n_hidden_layer; ++ n)
+		{
+			if(n == 0) //第一个隐层直接输入数据
+			{
+				sigmoid_layers[n]->forward_propagation(ppdata[i]);
+			}
+			else //其他隐层用前一层的输出作为输入数据
+			{
+				sigmoid_layers[n]->forward_propagation(sigmoid_layers[n-1]->output_data);
+			}
+		}
+		//softmax层使用最后一个隐层的输出作为输入数据
+		result[i] = log_layer->predictSoftMax(sigmoid_layers[n_hidden_layer-1]->output_data);
+		//log_layer->forward_propagation(sigmoid_layers[n_hidden_layer-1]->output_data);
+	}
+
+	return result;
+}
 double ** NeuralNetwork::predict(double** ppdata, int n)
 {
 	double **result = new double *[n];
@@ -160,11 +207,31 @@ double NeuralNetwork::getRMSE(double **pred, double **label, int N, int n_out)
 	{
 		for(int j = 0 ; j < n_out ; j++)
 		{
-			result += (pred[i][j] - label[i][j]) * (pred[i][j] - label[i][j]);
+			//result += (pred[i][j] - label[i][j]) * (pred[i][j] - label[i][j]);
+			result += abs(pred[i][j] - label[i][j]);
 		}
 	}
 
-	result = sqrt(result/N);
+	//result = sqrt(result/N);
+	result = result/N;
+	return result;
+}
 
+double NeuralNetwork::getAccuracy(int *pred, double **label, int N, int n_out)
+{
+	double result = 0;
+	for(int i = 0 ; i < N ; i++)
+	{
+		int curLabel = 0;
+		for(int j = 0 ; j < n_out ; j++)
+		{
+			if(abs(label[i][j]-1) < 0.00001)
+				curLabel = j;
+		}
+		if(pred[i] == curLabel)
+			result += 1;
+	}
+
+	result = result / N;
 	return result;
 }

@@ -19,7 +19,11 @@ double **getData(string dir, int num, int demsion)
 	
 	double **data = new double *[num];
 	for(int i = 0 ; i < num ; i++)
+	{
 		data[i] = new double [demsion];
+		for(int j = 0 ; j < demsion ; j++)
+			data[i][j] = 0;
+	}
 
 	string line("");
 	for(int i = 0 ; i < num ; i++)
@@ -28,7 +32,22 @@ double **getData(string dir, int num, int demsion)
 
 		string::size_type pos1 = 0 , pos2 = 0;
 		pos2 = line.find(" ", pos1);
-		for(int j = 0 ; j < demsion ; j++)
+		if(target == "Regression")
+		{
+			for(int j = 0 ; j < demsion ; j++)
+			{
+				string character = line.substr(pos1, pos2-pos1);
+				while(character == "")
+				{
+					pos1 = pos2+1;
+					pos2 = line.find(" ", pos1);
+					character = line.substr(pos1, pos2-pos1);
+				}
+
+				data[i][j] = atof(character.c_str());
+			}
+		}
+		else
 		{
 			string character = line.substr(pos1, pos2-pos1);
 			while(character == "")
@@ -38,7 +57,7 @@ double **getData(string dir, int num, int demsion)
 				character = line.substr(pos1, pos2-pos1);
 			}
 
-			data[i][j] = atof(character.c_str());
+			data[i][int(atof(character.c_str())+0.5)-1] = 1;
 		}
 	}
 
