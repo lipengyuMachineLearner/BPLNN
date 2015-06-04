@@ -64,6 +64,8 @@ double **getData(string dir, int num, int demsion)
 	return data;
 }
 
+
+
 int main()
 {
     //test_lr();
