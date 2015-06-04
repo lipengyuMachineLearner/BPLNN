@@ -1,4 +1,4 @@
-﻿生成启动时间为 2015/6/3 23:08:01。
+﻿生成启动时间为 2015/6/4 21:22:29。
      1>项目“F:\code\LiPengyu_BPNN\LiPengyu_BPNN\LiPengyu_BPNN\LiPengyu_BPNN.vcxproj”在节点 2 上(Build 个目标)。
      1>ClCompile:
          D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /Od /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc110.pdb" /Gd /TP /errorReport:prompt LogisticRegression.cpp NeuralNetwork.cpp main.cpp
@@ -18,18 +18,14 @@
      1>main.obj : warning LNK4006: "int * phidden" (?phidden@@3PAHA) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
      1>main.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > outFile" (?outFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
      1>main.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > rootDir" (?rootDir@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
-     1>main.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > trainDataFile" (?trainDataFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
-     1>main.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > trainLabelFile" (?trainLabelFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
-     1>main.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > testDataFile" (?testDataFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
-     1>main.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > testLabelFile" (?testLabelFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
+     1>main.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > DataFile" (?DataFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
+     1>main.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > LabelFile" (?LabelFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
      1>main.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > target" (?target@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
      1>NeuralNetwork.obj : warning LNK4006: "int * phidden" (?phidden@@3PAHA) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
      1>NeuralNetwork.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > outFile" (?outFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
      1>NeuralNetwork.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > rootDir" (?rootDir@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
-     1>NeuralNetwork.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > trainDataFile" (?trainDataFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
-     1>NeuralNetwork.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > trainLabelFile" (?trainLabelFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
-     1>NeuralNetwork.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > testDataFile" (?testDataFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
-     1>NeuralNetwork.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > testLabelFile" (?testLabelFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
+     1>NeuralNetwork.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > DataFile" (?DataFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
+     1>NeuralNetwork.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > LabelFile" (?LabelFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
      1>NeuralNetwork.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > target" (?target@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
      1>F:\code\LiPengyu_BPNN\LiPengyu_BPNN\x64\Debug\LiPengyu_BPNN.exe : warning LNK4088: 因 /FORCE 选项生成了映像；映像可能不能运行
          LiPengyu_BPNN.vcxproj -> F:\code\LiPengyu_BPNN\LiPengyu_BPNN\x64\Debug\LiPengyu_BPNN.exe
@@ -37,4 +33,4 @@
 
 生成成功。
 
-已用时间 00:00:04.50
+已用时间 00:00:06.77

@@ -2,6 +2,8 @@
 #include "NeuralNetwork.h"
 #include "util.h"
 #include <fstream>
+#include <vector>
+#include <algorithm>
 //#include "HiddenLayer.h"
 //#include "LogisticRegression.h"
 
@@ -49,9 +51,15 @@ void NeuralNetwork::train(double** trainData, double** trainLabel, double **test
 {
 	ofstream outfile;
 	outfile.open(outFile.c_str());
+	vector<int> index;
+	for(int i = 0 ; i < N ; i++)
+		index.push_back(i);
+
 	//反复迭代样本iepochs次训练
 	for(int epoch = 0; epoch < iepochs; ++epoch)
 	{
+		random_shuffle(index.begin(), index.end());
+
 		if(target ==  "Classifier")
 		{
 			int *pred_train = predictSoftMax(trainData, N);
@@ -64,7 +72,7 @@ void NeuralNetwork::train(double** trainData, double** trainLabel, double **test
 			delete []pred_test;
 
 			std::cout << "epoch," << epoch << ",trainError," << Accuracy_train; 
-			std::cout << ",testError" << Accuracy_test << endl;
+			std::cout << ",testError," << Accuracy_test << endl;
 
 			outfile << "epoch," << epoch << ",trainError," << Accuracy_train; 
 			outfile << ",testError," << Accuracy_test << endl;
@@ -97,8 +105,9 @@ void NeuralNetwork::train(double** trainData, double** trainLabel, double **test
 
 
 		double e = 0.0;
-		for(int i = 0; i < N; ++i)
+		for(int index_i = 0; index_i < N; ++index_i)
 		{
+			int i = index[index_i];
 			//前向传播阶段 
 			for(int n = 0; n < n_hidden_layer; ++ n)
 			{
