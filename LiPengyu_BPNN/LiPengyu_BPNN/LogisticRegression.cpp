@@ -7,11 +7,13 @@
 using namespace std;
 
 
-LogisticRegression::LogisticRegression(int n_i, int n_o, int n_t)
+LogisticRegression::LogisticRegression(int n_i, int n_o, int n_t, double weight_decay_in)
 {
     n_in = n_i;
     n_out = n_o;
     n_train = n_t;
+
+	weight_decay = weight_decay_in;
 
     w = new double* [n_out];
     for(int i = 0; i < n_out; ++i)
@@ -89,7 +91,7 @@ void LogisticRegression::back_propagation(double* input_data, double* label, dou
         delta[i] = label[i] - output_data[i] > 0 ? 1 : -1;
         for(int j = 0; j < n_in; ++j)
         {
-            w[i][j] += lr * delta[i] * input_data[j] / n_train;
+            w[i][j] += lr * delta[i] * input_data[j] / n_train - weight_decay*w[i][j];
         }
         b[i] += lr * delta[i] / n_train;
     }
@@ -122,6 +124,9 @@ void LogisticRegression::train(double *x, double *y, double lr)
     forward_propagation(x);
 	back_propagation(x, y, lr);
 }
-
+void LogisticRegression::load(string weight, string bias)
+{
+	;
+}
 
 

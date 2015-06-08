@@ -8,7 +8,7 @@
 //#include "LogisticRegression.h"
 
 using namespace std;
-NeuralNetwork::NeuralNetwork(int n, int nt, int n_i, int n_o, int nhl, int *hls, int type)
+NeuralNetwork::NeuralNetwork(int n, int nt, int n_i, int n_o, int nhl, int *hls, int type, double *weight_decay_in)
 {
 	N = n;
 	NT = nt;
@@ -17,6 +17,7 @@ NeuralNetwork::NeuralNetwork(int n, int nt, int n_i, int n_o, int nhl, int *hls,
 
 	n_hidden_layer = nhl;
 	hidden_layer_size = hls;
+	weight_decay = weight_decay_in;
 
 	activityFunctionType = type;
 	//构造网络结构
@@ -25,15 +26,15 @@ NeuralNetwork::NeuralNetwork(int n, int nt, int n_i, int n_o, int nhl, int *hls,
 	{
 		if(i == 0)
 		{
-			sigmoid_layers[i] = new HiddenLayer(n_in, hidden_layer_size[i], activityFunctionType);//第一个隐层
+			sigmoid_layers[i] = new HiddenLayer(n_in, hidden_layer_size[i], activityFunctionType, weight_decay[i]);//第一个隐层
 		}
 		else
 		{
-			sigmoid_layers[i] = new HiddenLayer(hidden_layer_size[i-1], hidden_layer_size[i], activityFunctionType);//其他隐层
+			sigmoid_layers[i] = new HiddenLayer(hidden_layer_size[i-1], hidden_layer_size[i], activityFunctionType, weight_decay[i]);//其他隐层
 		}
 	}
 
-	log_layer = new LogisticRegression(hidden_layer_size[n_hidden_layer-1], n_out, N);//最后的softmax层
+	log_layer = new LogisticRegression(hidden_layer_size[n_hidden_layer-1], n_out, N, weight_decay[n_hidden_layer]);//最后的softmax层
 
 }
 
@@ -55,6 +56,7 @@ void NeuralNetwork::train(double** trainData, double** trainLabel, double **test
 	for(int i = 0 ; i < N ; i++)
 		index.push_back(i);
 
+	double minError = 1000000;
 	//反复迭代样本iepochs次训练
 	for(int epoch = 0; epoch < iepochs; ++epoch)
 	{
@@ -94,10 +96,16 @@ void NeuralNetwork::train(double** trainData, double** trainLabel, double **test
 			delete []pred_test;
 
 			std::cout << "epoch," << epoch << ",trainError," << RMSE_train; 
-			std::cout << ",testError" << RMSE_test << endl;
+			std::cout << ",testError," << RMSE_test << endl;
 
 			outfile << "epoch," << epoch << ",trainError," << RMSE_train; 
 			outfile << ",testError," << RMSE_test << endl;
+
+			if (signSave && RMSE_test < minError)
+			{
+				save();
+				minError = RMSE_test;
+			}
 		}
 		else
 			cout << "error in target chose" << endl;
@@ -243,4 +251,88 @@ double NeuralNetwork::getAccuracy(int *pred, double **label, int N, int n_out)
 
 	result = result / N;
 	return result;
+}
+
+void NeuralNetwork::save()
+{
+	ofstream paramFile;
+	paramFile.open("paramFile.txt");
+
+	int in = 0, out = 0;
+	for (int lay_i = 0; lay_i < n_hidden_layer; lay_i++)
+	{
+		double **w = sigmoid_layers[lay_i]->w;
+		double *b = sigmoid_layers[lay_i]->b;
+
+		if (lay_i == 0)
+		{
+			in = n_in;
+			out = hidden_layer_size[lay_i];
+		}
+		else
+		{
+			in = hidden_layer_size[lay_i - 1];
+			out = hidden_layer_size[lay_i];
+		}
+		
+		paramFile << "#layer" << lay_i << "," << in << "," << out << endl;
+		for (int i = 0; i < out; i++)
+		{
+			for (int j = 0; j < in; j++)
+			{
+				paramFile << w[i][j] << ",";
+			}
+		}
+
+		paramFile << endl;
+
+		for (int j = 0; j < out; j++)
+			paramFile << b[j] << ",";
+		paramFile << endl;
+	}
+
+	in = hidden_layer_size[n_hidden_layer - 1];
+	out = n_out;
+	double **w = log_layer->w;
+	double *b = log_layer->b;
+	paramFile << "#layerLOG," << in << "," << out << endl;
+	for (int i = 0; i < out; i++)
+	{
+		for (int j = 0; j < in; j++)
+		{
+			paramFile << w[i][j] << ",";
+		}
+	}
+
+	paramFile << endl;
+
+	for (int j = 0; j < out; j++)
+		paramFile << b[j] << ",";
+	paramFile << endl;
+
+	paramFile.close();
+}
+
+void NeuralNetwork::load()
+{
+	ifstream paramFile;
+	paramFile.open("paramFile.txt");
+	string line,weight,bias;
+
+	for (int lay_i = 0; lay_i < n_hidden_layer; lay_i++)
+	{
+		getline(paramFile, line);
+		cout << line << endl;
+		getline(paramFile, weight);
+		getline(paramFile, bias);
+
+		sigmoid_layers[lay_i]->load(weight, bias);
+	}
+
+	getline(paramFile, line);
+	cout << line << endl;
+	getline(paramFile, weight);
+	getline(paramFile, bias);
+
+	log_layer->load(weight, bias);
 }

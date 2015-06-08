@@ -9,12 +9,15 @@ using namespace std;
 
 
 
-HiddenLayer::HiddenLayer(int n_i, int n_o, int type)
+HiddenLayer::HiddenLayer(int n_i, int n_o, int type, double weight_decay_in)
 {
     n_in  = n_i;
     n_out = n_o;
 
 	activityFunctionType = type;
+
+	weight_decay = weight_decay_in;
+
     w = new double* [n_out];
     for(int i = 0; i < n_out; ++i)
     {
@@ -94,9 +97,14 @@ void HiddenLayer::back_propagation(double *pdinputData, double *pdnextLayerDelta
     {
         for(int j = 0; j < n_in; ++j)
         {
-            w[i][j] += dlr * delta[i] * pdinputData[j];
+            w[i][j] += dlr * delta[i] * pdinputData[j] - weight_decay*w[i][j];
         }
         b[i] += dlr * delta[i];
     }
     delete[] sigma;
+}
+
+void HiddenLayer::load(string weight, string bias)
+{
+	;
 }

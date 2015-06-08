@@ -93,7 +93,7 @@ int main()
 	
 	//printArr(phidden, 1);
 	cout << "neural net intial..." << endl;
-	NeuralNetwork neural(n_train, n_test, innode, outnode, ihiddenSize, phidden, 0);
+	NeuralNetwork neural(n_train, n_test, innode, outnode, ihiddenSize, phidden, 0, weidth_decay_);
 	cout << "neural net complete" << endl;
 	double **data, **label;
 	cout <<"data loading..." << endl;

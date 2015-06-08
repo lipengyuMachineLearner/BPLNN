@@ -3,11 +3,12 @@
 
 class HiddenLayer{
 public:
-	HiddenLayer(int n_i, int n_o, int type);
+	HiddenLayer(int n_i, int n_o, int type, double weight_decay_in);
 	~HiddenLayer();
 
 	void forward_propagation(double* input_data);
 	void back_propagation(double *input_data, double *next_layer_delta, double** next_layer_w, int next_layer_n_out, double lr, int N);
+	void load(std::string weight, std::string bias);
 
 	//本层前向传播的输出值,作为下一层的输入值
 	double* output_data;
@@ -21,6 +22,9 @@ public:
 	int n_out;
 	double** w;
 	double*b;
+
+private:
+	double weight_decay;
 };
 
 #endif

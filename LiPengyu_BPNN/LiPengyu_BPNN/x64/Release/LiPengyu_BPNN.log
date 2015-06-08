@@ -1,47 +1,9 @@
-﻿生成启动时间为 2015/6/4 22:56:08。
-     1>项目“F:\code\LiPengyu_BPNN\LiPengyu_BPNN\LiPengyu_BPNN\LiPengyu_BPNN.vcxproj”在节点 2 上(Build 个目标)。
-     1>ClCompile:
-         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Release\\" /Fd"x64\Release\vc110.pdb" /Gd /TP /errorReport:prompt LogisticRegression.cpp NeuralNetwork.cpp main.cpp
-         LogisticRegression.cpp
-         NeuralNetwork.cpp
-         main.cpp
-       Link:
-         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"F:\code\LiPengyu_BPNN\LiPengyu_BPNN\x64\Release\LiPengyu_BPNN.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"F:\code\LiPengyu_BPNN\LiPengyu_BPNN\x64\Release\LiPengyu_BPNN.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\code\LiPengyu_BPNN\LiPengyu_BPNN\x64\Release\LiPengyu_BPNN.lib" /MACHINE:X64 /force x64\Release\HiddenLayer.obj
-         x64\Release\LogisticRegression.obj
-         x64\Release\main.obj
-         x64\Release\NeuralNetwork.obj
-         x64\Release\util.obj
-     1>main.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > DataFile" (?DataFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
-     1>main.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > outFile" (?outFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
-     1>main.obj : warning LNK4006: "int * phidden" (?phidden@@3PAHA) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
-     1>main.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > LabelFile" (?LabelFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
-     1>main.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > rootDir" (?rootDir@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
-     1>main.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > target" (?target@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
-     1>NeuralNetwork.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > DataFile" (?DataFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
-     1>NeuralNetwork.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > outFile" (?outFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
-     1>NeuralNetwork.obj : warning LNK4006: "int * phidden" (?phidden@@3PAHA) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
-     1>NeuralNetwork.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > LabelFile" (?LabelFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
-     1>NeuralNetwork.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > rootDir" (?rootDir@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
-     1>NeuralNetwork.obj : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > target" (?target@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 LogisticRegression.obj 中定义；已忽略第二个定义
-     1>F:\code\LiPengyu_BPNN\LiPengyu_BPNN\x64\Release\LiPengyu_BPNN.exe : warning LNK4088: 因 /FORCE 选项生成了映像；映像可能不能运行
-         正在生成代码
-         已完成代码的生成
-     1>* CIL library *(* CIL module *) : warning LNK4006: "int * phidden" (?phidden@@3PAHA) 已在 * CIL library *(* CIL module *) 中定义；已忽略第二个定义
-     1>* CIL library *(* CIL module *) : warning LNK4006: "int * phidden" (?phidden@@3PAHA) 已在 * CIL library *(* CIL module *) 中定义；已忽略第二个定义
-     1>* CIL library *(* CIL module *) : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > DataFile" (?DataFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 * CIL library *(* CIL module *) 中定义；已忽略第二个定义
-     1>* CIL library *(* CIL module *) : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > outFile" (?outFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 * CIL library *(* CIL module *) 中定义；已忽略第二个定义
-     1>* CIL library *(* CIL module *) : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > LabelFile" (?LabelFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 * CIL library *(* CIL module *) 中定义；已忽略第二个定义
-     1>* CIL library *(* CIL module *) : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > rootDir" (?rootDir@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 * CIL library *(* CIL module *) 中定义；已忽略第二个定义
-     1>* CIL library *(* CIL module *) : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > target" (?target@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 * CIL library *(* CIL module *) 中定义；已忽略第二个定义
-     1>* CIL library *(* CIL module *) : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > DataFile" (?DataFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 * CIL library *(* CIL module *) 中定义；已忽略第二个定义
-     1>* CIL library *(* CIL module *) : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > outFile" (?outFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 * CIL library *(* CIL module *) 中定义；已忽略第二个定义
-     1>* CIL library *(* CIL module *) : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > LabelFile" (?LabelFile@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 * CIL library *(* CIL module *) 中定义；已忽略第二个定义
-     1>* CIL library *(* CIL module *) : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > rootDir" (?rootDir@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 * CIL library *(* CIL module *) 中定义；已忽略第二个定义
-     1>* CIL library *(* CIL module *) : warning LNK4006: "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > target" (?target@@3V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@A) 已在 * CIL library *(* CIL module *) 中定义；已忽略第二个定义
-     1>F:\code\LiPengyu_BPNN\LiPengyu_BPNN\x64\Release\LiPengyu_BPNN.exe : warning LNK4088: 因 /FORCE 选项生成了映像；映像可能不能运行
-         LiPengyu_BPNN.vcxproj -> F:\code\LiPengyu_BPNN\LiPengyu_BPNN\x64\Release\LiPengyu_BPNN.exe
-     1>已完成生成项目“F:\code\LiPengyu_BPNN\LiPengyu_BPNN\LiPengyu_BPNN\LiPengyu_BPNN.vcxproj”(Build 个目标)的操作。
+﻿Build started 2015/6/8 13:22:24.
+     1>Project "D:\心理\C++ code\BPLNN\LiPengyu_BPNN\LiPengyu_BPNN\LiPengyu_BPNN.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         LiPengyu_BPNN.vcxproj -> D:\心理\C++ code\BPLNN\LiPengyu_BPNN\x64\Release\LiPengyu_BPNN.exe
+     1>Done Building Project "D:\心理\C++ code\BPLNN\LiPengyu_BPNN\LiPengyu_BPNN\LiPengyu_BPNN.vcxproj" (Build target(s)).
 
-生成成功。
+Build succeeded.
 
-已用时间 00:00:08.65
+Time Elapsed 00:00:00.09

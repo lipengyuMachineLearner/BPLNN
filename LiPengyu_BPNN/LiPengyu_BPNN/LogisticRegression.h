@@ -4,7 +4,7 @@
 class LogisticRegression
 {
 public:
-	LogisticRegression(int n_i, int i_o, int);
+	LogisticRegression(int n_i, int i_o, int n_t, double weight_decay_in);
 	~LogisticRegression();
 
 	void forward_propagation(double* input_data);
@@ -17,6 +17,8 @@ public:
 	int predictSoftMax(double *x);
 
 	void makeLabels(int* pimax, double (*pplabels)[8]);
+	void load(std::string weight, std::string bias);
+
 
 	//本层前向传播的输出值，也是最终的预测值
 	double* output_data;
@@ -29,7 +31,8 @@ public:
 	int n_train;
 	double** w;
 	double* b;
-
+private:
+	double weight_decay;
 };
 
 void test_lr();
